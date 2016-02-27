@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import rustam.megafood3.model.Basket;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity
         MainFragment mainFragment = MainFragment.newInstance();
         ft.replace(R.id.main_placeholder, mainFragment);
         ft.commit();
+
+        Basket basket = Basket.getInstance();
     }
 
     @Override

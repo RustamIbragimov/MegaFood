@@ -22,7 +22,7 @@ public class GroupDialogFragment extends DialogFragment {
 
 
     public interface GroupDialogListener {
-        public void onDialogPositiveClick();
+        public void onDialogPositiveClick(DialogFragment dialog);
     }
 
     GroupDialogListener mListener;
@@ -58,7 +58,7 @@ public class GroupDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        // do nothing
                     }
                 });
 

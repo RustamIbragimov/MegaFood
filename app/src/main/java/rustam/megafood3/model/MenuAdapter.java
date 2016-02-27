@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import rustam.megafood3.MenuFragment;
@@ -21,22 +23,32 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
     private final LayoutInflater inflater;
     private List<MenuData> list;
+    private Context context;
 
     public MenuAdapter(Context context, List<MenuData> list) {
         inflater = LayoutInflater.from(context);
         this.list = list;
+        this.context = context;
     }
 
     @Override
     public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.menu_item, parent, false);
+
+
+
         MenuViewHolder viewHolder = new MenuViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(MenuViewHolder holder, int position) {
+        MenuData item = list.get(position);
+        holder.title.setText(item.getName());
+        holder.desc.setText(item.getDesc());
+        holder.price.setText(item.getPrice() == null ? "" : item.getPrice());
 
+        Picasso.with(context).load(item.getImage()).into(holder.image);
     }
 
     @Override
@@ -45,7 +57,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     }
 
 
-    class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class MenuViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView image;
         private TextView title;
@@ -59,12 +71,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
             title = (TextView) itemView.findViewById(R.id.menu_item_title);
             desc = (TextView) itemView.findViewById(R.id.menu_item_desc);
             price = (TextView) itemView.findViewById(R.id.menu_item_price);
-        }
-
-
-        @Override
-        public void onClick(View v) {
-
         }
     }
 }

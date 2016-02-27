@@ -2,7 +2,9 @@ package rustam.megafood3;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +15,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import rustam.megafood3.model.MenuAdapter;
 import rustam.megafood3.model.MenuData;
+import rustam.megafood3.model.RecyclerItemClickListener;
+import rustam.megafood3.model.Request;
 
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements GroupDialogFragment.GroupDialogListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
     private String mRestaurantName;
+    private List<MenuData> mList;
 
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
@@ -56,15 +62,39 @@ public class MenuFragment extends Fragment {
         mToolbar = ((MainActivity)getActivity()).getToolbar();
         mToolbar.setTitle(mRestaurantName);
 
+        MenuLongOperation operation = new MenuLongOperation();
+        operation.execute();
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler_view);
-        mMenuAdapter = new MenuAdapter(getActivity(), new LinkedList<MenuData>()); //TODO
+        mMenuAdapter = new MenuAdapter(getActivity(), mList);
         mRecyclerView.setAdapter(mMenuAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                    }
+                }));
+
         return view;
     }
 
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
 
+    }
+
+
+    class MenuLongOperation extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            mList = Request.sendMenuRequest(mRestaurantName);
+            return null;
+        }
+    }
 
 }
