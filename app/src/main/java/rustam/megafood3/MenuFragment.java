@@ -22,7 +22,7 @@ import rustam.megafood3.model.MenuData;
 import rustam.megafood3.model.Request;
 
 
-public class MenuFragment extends Fragment implements GroupDialogFragment.GroupDialogListener {
+public class MenuFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = MenuFragment.class.getSimpleName();
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
@@ -65,11 +65,6 @@ public class MenuFragment extends Fragment implements GroupDialogFragment.GroupD
 
 
         return view;
-    }
-
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
-
     }
 
 

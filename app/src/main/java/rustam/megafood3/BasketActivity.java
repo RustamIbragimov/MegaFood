@@ -25,9 +25,6 @@ public class BasketActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-
             ab.setTitle(getString(R.string.basket));
         }
 
