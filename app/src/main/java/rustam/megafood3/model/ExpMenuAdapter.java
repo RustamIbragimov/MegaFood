@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import rustam.megafood3.MenuFragment;
 import rustam.megafood3.R;
 
 /**
@@ -19,10 +20,12 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
 
     public List<MenuData> mList;
     public Context mContext;
+    CartListener lstner;
 
-    public ExpMenuAdapter(List<MenuData> mList, Context mContext) {
+    public ExpMenuAdapter(List<MenuData> mList, Context mContext, CartListener lstner) {
         this.mList = mList;
         this.mContext = mContext;
+        this.lstner =lstner;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+    public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (mList.get(groupPosition).isSingle()) {
@@ -91,6 +94,12 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
                     .setText(mList.get(groupPosition).getPrice() + "₸");
             ((ImageView) convertView.findViewById(R.id.menu_item_image))
                     .setImageBitmap(mList.get(groupPosition).getImage());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lstner.onCartAdd(Integer.parseInt(mList.get(groupPosition).getId()));
+                }
+            });
         } else {
             ((TextView) convertView.findViewById(R.id.menu_item_title))
                     .setText(mList.get(groupPosition).getName());
@@ -103,7 +112,7 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.menu_item, null);
@@ -116,6 +125,12 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
                 .setText(mList.get(groupPosition).getList().get(childPosition).getPrice() + "₸");
         convertView.findViewById(R.id.menu_item_image)
                 .setVisibility(View.GONE);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lstner.onCartAdd(Integer.parseInt(mList.get(groupPosition).getList().get(childPosition).getId()));
+            }
+        });
         return convertView;
     }
 

@@ -16,14 +16,17 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import rustam.megafood3.model.CartListener;
 import rustam.megafood3.model.ExpMenuAdapter;
 import rustam.megafood3.model.MenuData;
 import rustam.megafood3.model.Request;
 
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements CartListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = MenuFragment.class.getSimpleName();
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
@@ -35,8 +38,11 @@ public class MenuFragment extends Fragment {
 
     private Toolbar mToolbar;
 
+    private Map<Integer, Integer> order;
+
     public MenuFragment() {
         // Required empty public constructor
+        order = new HashMap<>();
     }
 
 
@@ -76,6 +82,15 @@ public class MenuFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCartAdd(int item_id) {
+        if(order.get(item_id)!=null){
+            order.put(item_id, order.get(item_id)+1);
+        } else {
+            order.put(item_id, 1);
+        }
+    }
+
 
     class MenuLongOperation extends AsyncTask<Void, Void, Void> {
 
@@ -89,7 +104,7 @@ public class MenuFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... params) {
             mList = Request.sendMenuRequest(mRestaurantName);
-            adapter = new ExpMenuAdapter(mList, MenuFragment.this.getContext());
+            adapter = new ExpMenuAdapter(mList, MenuFragment.this.getContext(), MenuFragment.this);
             return null;
         }
 

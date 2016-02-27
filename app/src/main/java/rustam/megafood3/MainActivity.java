@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
 
 import rustam.megafood3.model.Basket;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private Toolbar toolbar;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,8 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("Mega Food");
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

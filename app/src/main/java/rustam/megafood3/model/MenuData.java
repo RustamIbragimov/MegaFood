@@ -94,22 +94,31 @@ public class MenuData {
         this.type = type;
     }
 
-    public boolean isSingle(){
+    public boolean isSingle() {
         return type.equals(Request.SINGLE);
     }
 
     private Bitmap getBitmapFromURL(String src) {
+        HttpURLConnection connection = null;
+        InputStream input = null;
         try {
             URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
-            InputStream input = connection.getInputStream();
+            input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
             return myBitmap;
         } catch (IOException e) {
             // Log exception
             return null;
+        } finally {
+            try {
+                connection.disconnect();
+            } catch (Exception e) {}
+            try {
+                input.close();
+            } catch (Exception e){}
         }
     }
 }
