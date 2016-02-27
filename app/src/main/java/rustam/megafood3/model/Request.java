@@ -25,7 +25,7 @@ public class Request {
     public final static String GROUP = "group";
 
     private final static String TAG = Request.class.getSimpleName();
-    private final static String MENU_REQUEST = "https://food-megahackathon.c9users.io/getMenu?restaurant_id=123";
+    private final static String MENU_REQUEST = "https://food-megahackathon.c9users.io/getMenu?restaurant_id=2";
 
     private final static String RESPONSE_CODE = "response_code";
     private final static String ERROR = "error";
@@ -64,7 +64,7 @@ public class Request {
                 sb.append(line);
             }
 
-            list = readMenu(line);
+            list = readMenu(sb.toString());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -78,6 +78,7 @@ public class Request {
     private static List<MenuData> readMenu(String line) {
         List<MenuData> list = new ArrayList<>();
         try {
+            Log.v(TAG, line);
             JSONObject mainObj = new JSONObject(line);
             String status = mainObj.getString(RESPONSE_CODE);
             if (!status.equals("OK")) {
@@ -93,16 +94,24 @@ public class Request {
 
                 String type = obj.getString(TYPE);
                 if (type.equals(GROUP)) {
+                    MenuData groupItem = new MenuData();
                     String name = obj.getString(TITLE);
                     String desc = obj.getString(DESC);
+                    String image = obj.getString(IMAGE);
+
+                    groupItem.setName(name);
+                    groupItem.setDesc(desc);
+                    groupItem.setImage(image);
+                    groupItem.setType(GROUP);
 
                     JSONArray innerArr = obj.getJSONArray(ITEMS);
 
                     for (int j = 0; j < innerArr.length(); j++) {
                         JSONObject innerObj = innerArr.getJSONObject(j);
                         MenuData item = getMenuData(innerObj);
-                        list.add(item);
+                        groupItem.getList().add(item);
                     }
+                    list.add(groupItem);
 
                 }
                 else {
@@ -115,7 +124,7 @@ public class Request {
 
         }
 
-        return null;
+        return list;
     }
 
     private static MenuData getMenuData(JSONObject obj) throws JSONException {

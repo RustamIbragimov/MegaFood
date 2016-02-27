@@ -10,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +28,7 @@ import rustam.megafood3.model.Request;
 
 public class MenuFragment extends Fragment implements GroupDialogFragment.GroupDialogListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String TAG = MenuFragment.class.getSimpleName();
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
     private String mRestaurantName;
     private List<MenuData> mList;
@@ -65,19 +69,6 @@ public class MenuFragment extends Fragment implements GroupDialogFragment.GroupD
         MenuLongOperation operation = new MenuLongOperation();
         operation.execute();
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_recycler_view);
-        mMenuAdapter = new MenuAdapter(getActivity(), mList);
-        mRecyclerView.setAdapter(mMenuAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-
-                    }
-                }));
 
         return view;
     }
@@ -94,6 +85,18 @@ public class MenuFragment extends Fragment implements GroupDialogFragment.GroupD
         protected Void doInBackground(Void... params) {
             mList = Request.sendMenuRequest(mRestaurantName);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Log.v(TAG, mList.get(0).getName());
+
+            mRecyclerView = (RecyclerView) MenuFragment.this.getActivity().findViewById(R.id.menu_recycler_view);
+            mMenuAdapter = new MenuAdapter(getActivity(), mList);
+            mRecyclerView.setAdapter(mMenuAdapter);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
         }
     }
 

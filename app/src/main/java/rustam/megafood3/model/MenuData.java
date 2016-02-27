@@ -1,5 +1,6 @@
 package rustam.megafood3.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,6 +15,10 @@ public class MenuData {
     private String price;
     private List<MenuData> list;
     private String type;
+
+    public MenuData() {
+        list = new ArrayList<>();
+    }
 
     public MenuData(String id, String image, String name, String desc, String price, String type, List<MenuData> list) {
         this.id = id;
