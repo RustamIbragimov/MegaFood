@@ -4,12 +4,12 @@
     android:layout_height="match_parent"
     tools:context="rustam.megafood3.MenuFragment">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/menu_recycler_view"
+    <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:id="@+id/menu_list_view"
+        >
 
-    </android.support.v7.widget.RecyclerView>
+    </ExpandableListView>
 
 </FrameLayout>

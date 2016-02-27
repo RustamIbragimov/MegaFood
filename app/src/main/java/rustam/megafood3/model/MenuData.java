@@ -1,5 +1,12 @@
 package rustam.megafood3.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +16,7 @@ import java.util.List;
 public class MenuData {
 
     private String id;
-    private String image;
+    private Bitmap image;
     private String name;
     private String desc;
     private String price;
@@ -22,7 +29,7 @@ public class MenuData {
 
     public MenuData(String id, String image, String name, String desc, String price, String type, List<MenuData> list) {
         this.id = id;
-        this.image = image;
+        this.image = getBitmapFromURL(image);
         this.name = name;
         this.desc = desc;
         this.price = price;
@@ -38,12 +45,13 @@ public class MenuData {
         this.id = id;
     }
 
-    public String getImage() {
+    public Bitmap getImage() {
         return image;
     }
 
     public void setImage(String image) {
-        this.image = image;
+
+        this.image = getBitmapFromURL(image);
     }
 
     public String getName() {
@@ -84,5 +92,24 @@ public class MenuData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isSingle(){
+        return type.equals(Request.SINGLE);
+    }
+
+    private Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 }

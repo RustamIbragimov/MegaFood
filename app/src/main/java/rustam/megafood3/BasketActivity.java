@@ -11,13 +11,10 @@ import android.widget.TextView;
 import java.util.LinkedList;
 
 import rustam.megafood3.model.BasketAdapter;
-import rustam.megafood3.model.MenuAdapter;
 import rustam.megafood3.model.MenuData;
 
 public class BasketActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private BasketAdapter mBasketAdapter;
     private TextView total;
 
 
@@ -33,11 +30,6 @@ public class BasketActivity extends AppCompatActivity {
 
             ab.setTitle(getString(R.string.basket));
         }
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.menu_recycler_view);
-        mBasketAdapter = new BasketAdapter(this, new LinkedList<MenuData>()); //TODO
-        mRecyclerView.setAdapter(mBasketAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         total = (TextView) findViewById(R.id.basket_total);
     }
