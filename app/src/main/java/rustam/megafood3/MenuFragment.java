@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class MenuFragment extends Fragment {
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
     private String mRestaurantName;
     private List<MenuData> mList;
+
+    private ExpandableListView listView;
+    private ProgressBar progressBar;
 
     private Toolbar mToolbar;
 
@@ -60,7 +64,12 @@ public class MenuFragment extends Fragment {
         mToolbar = ((MainActivity) getActivity()).getToolbar();
         mToolbar.setTitle(mRestaurantName);
 
-        MenuLongOperation operation = new MenuLongOperation((ExpandableListView) view.findViewById(R.id.menu_list_view));
+        listView = (ExpandableListView) view.findViewById(R.id.menu_list_view);
+        progressBar = (ProgressBar) view.findViewById(R.id.loading_progress_bar);
+
+        listView.setVisibility(View.INVISIBLE);
+
+        MenuLongOperation operation = new MenuLongOperation(listView);
         operation.execute();
 
 
@@ -88,6 +97,9 @@ public class MenuFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             Log.v(TAG, mList.get(0).getName());
             lv.setAdapter(adapter);
+
+            listView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
