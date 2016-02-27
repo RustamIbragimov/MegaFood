@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="rustam.megafood3.BasketActivity"
+    android:orientation="vertical">
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/basket_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Итог"/>
+
+        <TextView
+            android:id="@+id/basket_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3540 KZT"/>
+
+        <Button
+            android:id="@+id/basket_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckout"
+            android:text="Оплатить" />
+
+    </LinearLayout>
+
+</LinearLayout>

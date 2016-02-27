@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MegaFood</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hardees">Hardee\'s</string>
+    <string name="kfc">KFC</string>
+    <string name="burger_king">Burger King</string>
+    <string name="assorti">Assorti</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отменить</string>
+    <string name="basket">Корзина</string>
+</resources>

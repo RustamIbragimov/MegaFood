@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_hardees"
+            android:title="@string/hardees" />
+        <item
+            android:id="@+id/nav_kfc"
+            android:title="@string/kfc" />
+        <item
+            android:id="@+id/nav_burger_king"
+            android:title="@string/burger_king" />
+        <item
+            android:id="@+id/nav_assorti"
+            android:title="@string/assorti" />
+    </group>
+
+
+</menu>
