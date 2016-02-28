@@ -39,7 +39,7 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String aVoid) {
                 super.onPostExecute(aVoid);
-                Intent intent = new Intent(CheckOutActivity.this, CheckOutActivity.class);
+                Intent intent = new Intent(CheckOutActivity.this, FinishActivity.class);
                 intent.putExtra("status", aVoid);
                 intent.putExtra("order_id", orderID);
                 startActivity(intent);

@@ -113,7 +113,7 @@ public class BasketActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                BasketActivity.this.findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
+                BasketActivity.this.findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
                 BasketActivity.this.findViewById(R.id.content).setVisibility(View.GONE);
             }
 
@@ -128,7 +128,7 @@ public class BasketActivity extends AppCompatActivity {
                 Intent intent = new Intent(BasketActivity.this, CheckOutActivity.class);
                 intent.putExtra("ord_id",aVoid);
                 startActivity(intent);
-                BasketActivity.this.findViewById(R.id.progressBar2).setVisibility(View.GONE);
+                BasketActivity.this.findViewById(R.id.progressBar).setVisibility(View.GONE);
                 BasketActivity.this.findViewById(R.id.content).setVisibility(View.VISIBLE);
             }
         };
