@@ -38,11 +38,7 @@ public class MenuFragment extends Fragment implements CartListener {
 
     private Toolbar mToolbar;
 
-    private Map<String, Integer> order;
-
-    public Map<String, Integer> getOrder(){
-        return order;
-    }
+    static public Map<String, Integer> order;
 
     public MenuFragment() {
         // Required empty public constructor

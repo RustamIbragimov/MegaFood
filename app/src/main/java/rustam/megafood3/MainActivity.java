@@ -50,9 +50,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, BasketActivity.class);
-                for (Map.Entry<String, Integer> pair : menuFragment.getOrder().entrySet()) {
-                    intent.putExtra(pair.getKey(),pair.getValue());
-                }
                 startActivity(intent);
             }
         });
