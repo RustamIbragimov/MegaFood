@@ -1,22 +1,24 @@
 package rustam.megafood3;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import rustam.megafood3.model.Basket;
 import rustam.megafood3.model.BasketAdapter;
 import rustam.megafood3.model.MenuData;
 import rustam.megafood3.model.Pair;
+import rustam.megafood3.model.Request;
 
 public class BasketActivity extends AppCompatActivity {
 
@@ -78,6 +80,31 @@ public class BasketActivity extends AppCompatActivity {
     }
 
     public void onCheckout(View view) {
-        //TODO
+
+        AsyncTask<Void,Void,String> task = new AsyncTask<Void, Void, String>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                BasketActivity.this.findViewById(R.id.progressBar2).setVisibility(View.VISIBLE);
+                BasketActivity.this.findViewById(R.id.content).setVisibility(View.GONE);
+            }
+
+            @Override
+            protected String doInBackground(Void... params) {
+                return Request.sendOrderRequest(map);
+            }
+
+            @Override
+            protected void onPostExecute(String aVoid) {
+                super.onPostExecute(aVoid);
+                Intent intent = new Intent(BasketActivity.this, CheckOutActivity.class);
+                intent.putExtra("ord_id",aVoid);
+                startActivity(intent);
+                BasketActivity.this.findViewById(R.id.progressBar2).setVisibility(View.GONE);
+                BasketActivity.this.findViewById(R.id.content).setVisibility(View.VISIBLE);
+            }
+        };
+        task.execute((Void)null);
     }
 }

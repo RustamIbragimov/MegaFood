@@ -29,6 +29,7 @@ public class Request {
     private final static String MENU_REQUEST = "https://food-megahackathon.c9users.io/getMenu?restaurant_id=2";
     private final static String CHECKOUT_REQUEST = "https://food-megahackathon.c9users.io/pay?";
     private final static String ORDER_REQUEST = "https://food-megahackathon.c9users.io/sendOrders?";
+    private final static String CHECK_STATUS = "https://food-megahackathon.c9users.io/getOrderStatus?";
 
     private final static String RESPONSE_CODE = "response_code";
     private final static String ERROR = "error";
@@ -50,11 +51,46 @@ public class Request {
 
     private Request() {}
 
+    public static String checkStatus(String orderID) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream in = null;
+        String status = null;
+        String urlrequest = CHECK_STATUS;
+        urlrequest+="order_id="+status;
+        try {
+            url = new URL(urlrequest);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+
+            in = conn.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            status = parseOrderId(sb.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return status;
+    }
+
     public static String checkOut(String ordID, String cardNumber, String cardHolder, String expDate, String cvv) {
         URL url = null;
         HttpURLConnection conn = null;
         InputStream in = null;
-        String orderId = null;
+        String status = null;
         String urlrequest = CHECKOUT_REQUEST;
         urlrequest+=ORDER_ID+'='+ordID;
         urlrequest+='&'+CARD_NUMBER+'='+cardNumber;
@@ -76,7 +112,7 @@ public class Request {
                 sb.append(line);
             }
 
-            orderId = parseOrderId(sb.toString());
+            status = parseOrderId(sb.toString());
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -86,7 +122,7 @@ public class Request {
             e.printStackTrace();
         }
 
-        return orderId;
+        return status;
     }
 
     public static String sendOrderRequest(Map<String, Integer> order) {
