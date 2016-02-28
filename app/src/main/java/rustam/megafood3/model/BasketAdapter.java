@@ -2,6 +2,7 @@ package rustam.megafood3.model;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
     private final LayoutInflater inflater;
     private List<Pair<MenuData, Integer>> list;
+
+
 
     public BasketAdapter(Context context, List<Pair<MenuData, Integer>> list) {
         inflater = LayoutInflater.from(context);
