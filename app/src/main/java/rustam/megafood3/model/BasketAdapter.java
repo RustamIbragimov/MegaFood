@@ -18,23 +18,30 @@ import rustam.megafood3.R;
 public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketViewHolder> {
 
     private final LayoutInflater inflater;
-    private List<MenuData> list;
+    private List<Pair<MenuData, Integer>> list;
 
-    public BasketAdapter(Context context, List<MenuData> list) {
+    public BasketAdapter(Context context, List<Pair<MenuData, Integer>> list) {
         inflater = LayoutInflater.from(context);
         this.list = list;
     }
 
     @Override
     public BasketViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.menu_item, parent, false);
+        View view = inflater.inflate(R.layout.basket_item, parent, false);
         BasketViewHolder viewHolder = new BasketViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(BasketViewHolder holder, int position) {
+        Pair<MenuData, Integer> pair = list.get(position);
+        MenuData item = pair.first;
+        int amount = pair.second;
 
+        holder.title.setText(item.getName());
+        holder.desc.setText(item.getDesc());
+        holder.price.setText(item.getPrice());
+        holder.amount.setText(Integer.toString(amount));
     }
 
     @Override
@@ -45,18 +52,18 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketAdapter.BasketView
 
     class BasketViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image;
         private TextView title;
         private TextView desc;
         private TextView price;
+        private TextView amount;
 
         public BasketViewHolder(View itemView) {
             super(itemView);
 
-            image = (ImageView) itemView.findViewById(R.id.basket_item_image);
             title = (TextView) itemView.findViewById(R.id.basket_item_title);
             desc = (TextView) itemView.findViewById(R.id.basket_item_desc);
             price = (TextView) itemView.findViewById(R.id.basket_item_price);
+            amount = (TextView) itemView.findViewById(R.id.basket_amount_text);
         }
 
     }

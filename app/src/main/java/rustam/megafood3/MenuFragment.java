@@ -89,6 +89,7 @@ public class MenuFragment extends Fragment implements CartListener {
         } else {
             order.put(item_id, 1);
         }
+        Log.v(TAG, item_id);
     }
 
 
