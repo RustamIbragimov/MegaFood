@@ -45,16 +45,28 @@ public class BasketActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.basket_recycler_view);
 
 
-
         data = new ArrayList<>();
 
         int totalInt = 0;
         for (MenuData item : list) {
-            if (item.getId() == null) continue;
-            if (map.containsKey(item.getId())) {
-                data.add(new Pair<MenuData, Integer>(item, map.get(item.getId())));
-                String price = item.getPrice().substring(0, item.getPrice().indexOf("."));
-                totalInt += Integer.valueOf(price);
+            if (item.isSingle()) {
+                if (item.getId() == null) continue;
+                if (map.containsKey(item.getId())) {
+                    data.add(new Pair<MenuData, Integer>(item, map.get(item.getId())));
+                    String price = item.getPrice().substring(0, item.getPrice().indexOf("."));
+                    totalInt += Integer.valueOf(price);
+                }
+            } else {
+                List<MenuData> lst = item.getList();
+                for (MenuData item2 : lst) {
+                    if (item2.getId() == null) continue;
+                    if (map.containsKey(item2.getId())) {
+                        data.add(new Pair<MenuData, Integer>(item2, map.get(item2.getId())));
+                        String price = item2.getPrice().substring(0, item2.getPrice().indexOf("."));
+                        totalInt += Integer.valueOf(price);
+                    }
+
+                }
             }
         }
 

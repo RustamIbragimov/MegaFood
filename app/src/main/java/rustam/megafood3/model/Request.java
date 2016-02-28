@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rustam on 2/27/2016.
@@ -26,6 +27,8 @@ public class Request {
 
     private final static String TAG = Request.class.getSimpleName();
     private final static String MENU_REQUEST = "https://food-megahackathon.c9users.io/getMenu?restaurant_id=2";
+    private final static String CHECKOUT_REQUEST = "https://food-megahackathon.c9users.io/pay?";
+    private final static String ORDER_REQUEST = "https://food-megahackathon.c9users.io/sendOrders?";
 
     private final static String RESPONSE_CODE = "response_code";
     private final static String ERROR = "error";
@@ -37,11 +40,103 @@ public class Request {
     private final static String IMAGE = "image";
     private final static String PRICE = "price";
     private final static String ITEMS = "items";
+    private final static String ORDER_ID = "order_id";
+    private final static String CARD_NUMBER = "PAN";
+    private final static String CARD_HOLDER = "holder";
+    private final static String EXP_DATE = "exp";
+    private final static String CVV = "cvv";
 
 
 
     private Request() {}
 
+    public static String checkOut(String ordID, String cardNumber, String cardHolder, String expDate, String cvv) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream in = null;
+        String orderId = null;
+        String urlrequest = CHECKOUT_REQUEST;
+        urlrequest+=ORDER_ID+'='+ordID;
+        urlrequest+='&'+CARD_NUMBER+'='+cardNumber;
+        urlrequest+='&'+CARD_HOLDER+'='+cardHolder;
+        urlrequest+='&'+EXP_DATE+'='+expDate;
+        urlrequest+='&'+CVV+'='+cvv;
+        try {
+            url = new URL(urlrequest);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+
+            in = conn.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            orderId = parseOrderId(sb.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return orderId;
+    }
+
+    public static String sendOrderRequest(Map<String, Integer> order) {
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream in = null;
+        String orderId = null;
+        String urlrequest = ORDER_REQUEST;
+        urlrequest+="initiator=Козлов+Дмитрий";
+        for(Map.Entry<String, Integer> entry: order.entrySet()){
+            urlrequest+='&'+entry.getKey()+'='+entry.getValue();
+        }
+        try {
+            url = new URL(urlrequest);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+
+            in = conn.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            orderId = parseOrderId(sb.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return orderId;
+    }
+
+    private static String parseOrderId(String json) throws JSONException {
+        JSONObject mainObj = new JSONObject(json);
+        String status = mainObj.getString(RESPONSE_CODE);
+        if (!status.equals("OK")) {
+            String error = mainObj.getString(ERROR);
+            Log.e(TAG, error);
+            return null;
+        }
+        return mainObj.getString(RESULT);
+    }
 
     public static List<MenuData> sendMenuRequest(String restaurantName) {
         URL url = null;
