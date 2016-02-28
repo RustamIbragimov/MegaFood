@@ -1,62 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="rustam.megafood3.BasketActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="rustam.megafood3.BasketActivity"
+    android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:indeterminate="true"
-        android:visibility="gone"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/basket_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Итог"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/basket_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/basket_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="3540 KZT"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="Итог" />
+        <Button
+            android:id="@+id/basket_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onCheckout"
+            android:text="Оплатить" />
 
-            <TextView
-                android:id="@+id/basket_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="3540 KZT" />
-
-            <Button
-                android:id="@+id/basket_checkout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onCheckout"
-                android:text="Оплатить" />
-
-        </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+
+</LinearLayout>

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -29,6 +31,29 @@ public class BasketActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Pair<MenuData, Integer>> data;
     private BasketAdapter adapter;
+
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+
+            String totalStr = total.getText().toString();
+            int cur = Integer.valueOf(data.get(position).first.getPrice().substring(0, data.get(position).first.getPrice().indexOf(".")));
+            totalStr = String.valueOf(Integer.valueOf(totalStr) - cur);
+            total.setText(totalStr);
+
+            data.remove(position);
+            recyclerView.getAdapter().notifyItemRemoved(position);
+        }
+    };
+
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
 
 
     @Override
@@ -75,6 +100,8 @@ public class BasketActivity extends AppCompatActivity {
         adapter = new BasketAdapter(this, data);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         total.setText(String.valueOf(totalInt));
     }
