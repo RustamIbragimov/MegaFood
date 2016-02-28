@@ -45,7 +45,8 @@ public class BasketActivity extends AppCompatActivity {
 
             String totalStr = total.getText().toString();
             int cur = Integer.valueOf(data.get(position).first.getPrice().substring(0, data.get(position).first.getPrice().indexOf(".")));
-            totalStr = String.valueOf(Integer.valueOf(totalStr) - cur);
+            int amount = map.get(data.get(position).first.getId());
+            totalStr = String.valueOf(Integer.valueOf(totalStr) - cur * amount);
             total.setText(totalStr);
 
             data.remove(position);
@@ -81,7 +82,8 @@ public class BasketActivity extends AppCompatActivity {
                 if (map.containsKey(item.getId())) {
                     data.add(new Pair<MenuData, Integer>(item, map.get(item.getId())));
                     String price = item.getPrice().substring(0, item.getPrice().indexOf("."));
-                    totalInt += Integer.valueOf(price);
+                    int amount = map.get(item.getId());
+                    totalInt += Integer.valueOf(price) * amount;
                 }
             } else {
                 List<MenuData> lst = item.getList();
@@ -90,7 +92,8 @@ public class BasketActivity extends AppCompatActivity {
                     if (map.containsKey(item2.getId())) {
                         data.add(new Pair<MenuData, Integer>(item2, map.get(item2.getId())));
                         String price = item2.getPrice().substring(0, item2.getPrice().indexOf("."));
-                        totalInt += Integer.valueOf(price);
+                        int amount = map.get(item2.getId());
+                        totalInt += Integer.valueOf(price) * amount;
                     }
 
                 }
