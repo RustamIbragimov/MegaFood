@@ -5,5 +5,5 @@ package rustam.megafood3.model;
  */
 public interface CartListener {
 
-    void onCartAdd(int prod_id);
+    void onCartAdd(String prod_id);
 }

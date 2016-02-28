@@ -97,7 +97,7 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    lstner.onCartAdd(Integer.parseInt(mList.get(groupPosition).getId()));
+                    lstner.onCartAdd(mList.get(groupPosition).getId());
                 }
             });
         } else {
@@ -128,7 +128,7 @@ public class ExpMenuAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lstner.onCartAdd(Integer.parseInt(mList.get(groupPosition).getList().get(childPosition).getId()));
+                lstner.onCartAdd(mList.get(groupPosition).getList().get(childPosition).getId());
             }
         });
         return convertView;

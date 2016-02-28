@@ -31,14 +31,18 @@ public class MenuFragment extends Fragment implements CartListener {
     private static final String TAG = MenuFragment.class.getSimpleName();
     private static final String RESTAURANT_NAME_PARAM = "restaurant_name";
     private String mRestaurantName;
-    private List<MenuData> mList;
+    public static List<MenuData> mList;
 
     private ExpandableListView listView;
     private ProgressBar progressBar;
 
     private Toolbar mToolbar;
 
-    private Map<Integer, Integer> order;
+    private Map<String, Integer> order;
+
+    public Map<String, Integer> getOrder(){
+        return order;
+    }
 
     public MenuFragment() {
         // Required empty public constructor
@@ -83,7 +87,7 @@ public class MenuFragment extends Fragment implements CartListener {
     }
 
     @Override
-    public void onCartAdd(int item_id) {
+    public void onCartAdd(String item_id) {
         if(order.get(item_id)!=null){
             order.put(item_id, order.get(item_id)+1);
         } else {
